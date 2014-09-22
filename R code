@@ -26,7 +26,9 @@ best <- function(state, outcome) {
                         stop("invalid ouctome")
                                 
                 }
+                Test2 <- any(state == unique(outcome_dat$State))
+                if (Test2 == FALSE) {
+                        stop("invaldi state")
+                }
     
 }
-
-unique(outcome$State)
