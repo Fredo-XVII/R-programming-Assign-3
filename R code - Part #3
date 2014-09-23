@@ -1,0 +1,9 @@
+setwd("C:/Users/Z001C9V/Documents/Data")
+getwd()
+dir()
+## Output
+> setwd("C:/Users/Z001C9V/Documents/Data")
+> getwd()
+[1] "C:/Users/Z001C9V/Documents/Data"
+> dir()
+[1] "hospital-data.csv"              "Hospital_Revised_Flatfiles.pdf" "outcome-of-care-measures.csv"  
