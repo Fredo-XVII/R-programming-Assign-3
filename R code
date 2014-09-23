@@ -28,7 +28,8 @@ best <- function(state, outcome) {
                 }
                 Test2 <- any(state == unique(outcome_dat$State))
                 if (Test2 == FALSE) {
-                        stop("invaldi state")
+                        stop("invalid state")
                 }
-    
+                nametest <- names(Hosp1$Comparison.to.U.S..Rate...Hospital.30.Day.Death..Mortality..Rates.from.outcome)
+                nametest
 }
