@@ -55,17 +55,17 @@ best <- function(state, outcome) {
                 detach(Hosp1) 
                 
                 attach(Hosp1)                
-                if (Test3 == TRUE) {
+                if (Test5 == TRUE) {
                         PN_Hosp <- Hosp1[order(Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia),]
                         PN_One <- PN_Hosp$Provider.Number[1]
-                        PN_Name <- hospital[which(hospital[,"Provider.Number"] == HA_One),"Hospital.Name"]
+                        PN_Name <- hospital[which(hospital[,"Provider.Number"] == PN_One),"Hospital.Name"]
                         if (PN_Name != "NULL") {print(PN_Name)}
                 }         
                 detach(Hosp1)                
-        
-                
+
 }
 
-best("FL","Heart Failure")
+
+best("FL","Pneumonia")
 Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "FL"),]
 Test3 <- ("Heart Attack" == conditions[1])
