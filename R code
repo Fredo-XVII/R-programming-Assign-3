@@ -30,6 +30,14 @@ best <- function(state, outcome) {
                 if (Test2 == FALSE) {
                         stop("invalid state")
                 }
-                nametest <- names(Hosp1$Comparison.to.U.S..Rate...Hospital.30.Day.Death..Mortality..Rates.from.outcome)
-                nametest
+                if (outcome == conditions[1]) {
+                        sort(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack)
+                } else if (outcome == conditions[2]) {
+                        sort()
+                } else if (outcome == conditions[3]) {
+                        sort()
+                }
+                        
+                
+                
 }
