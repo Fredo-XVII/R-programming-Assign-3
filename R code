@@ -30,17 +30,35 @@ best <- function(state, outcome) {
                 if (Test2 == FALSE) {
                         stop("invalid state")
                 }
-                attach(outcome_dat)
-                if (outcome == conditions[1]) {
+
+                Test3 <- (outcome == conditions[1])
+                Test4 <- (outcome == conditions[2])
+                Test5 <- (outcome == conditions[3])
+                
+                attach(Hosp1)                
+                if (Test3 == TRUE) {
                         HA_Hosp <- Hosp1[order(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack),]
                         HA_One <- HA_Hosp$Provider.Number[1]
-                        hospital[which(hospital[,"Provider.Number"] == "100034"),"Hospital.Name"]
-                } else if (outcome == conditions[2]) {
-                        sort()
-                } else if (outcome == conditions[3]) {
-                        sort()
-                }
+                        HA_Name <- hospital[which(hospital[,"Provider.Number"] == HA_One),"Hospital.Name"]
+
+                }         
+                detach(Hosp1)
+                if (HA_Name != "NULL") {print(HA_Name)}
+                
+                attach(Hosp1)                
+                if (Test4 == TRUE) {
+                        HF_Hosp <- Hosp1[order(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure),]
+                        HF_One <- HF_Hosp$Provider.Number[1]
+                        HF_Name <- hospital[which(hospital[,"Provider.Number"] == HF_One),"Hospital.Name"]
                         
-                detach(outcome_dat)
+                }         
+                detach(Hosp1)               
+                
+                if (HA_Name != "NULL") {print(HA_Name)}
+                if (HF_One != "NULL") {print(HF_One)}
                 
 }
+
+best("FL","Heart Attack")
+Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "FL"),]
+Test3 <- ("Heart Attack" == conditions[1])
