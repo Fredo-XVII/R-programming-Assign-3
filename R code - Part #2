@@ -70,3 +70,9 @@ best("TX","Heart Attack")
 Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "TX"),]
 Test3 <- ("Heart Failure" == conditions[1])
  test98 <- subset(HA_Hosp, as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack) >= 0 , )
+
+attach(Hosp1)
+HA_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack" == TRUE)),] 
+test97 <- HA_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack)),] 
+test98 <- test97[order(Hospital.Name),] 
+detach(Hosp1)
