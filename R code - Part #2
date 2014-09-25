@@ -14,10 +14,6 @@ names(outcome[31])
 outcome[,11] <- as.numeric(outcome[,11])
 hist(outcome[,11])
 
-## Best code 
-outcome_dat <- read.csv("outcome-of-care-measures.csv", colClasses = "character")
-hospital <- read.csv("hospital-data.csv", colClasses = "character")
-conditions <- c("Heart Attack","Heart Failure","Pneumonia")
 best <- function(state, outcome) {
         Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == state),]
         ##head(Hosp1)
@@ -42,31 +38,38 @@ best <- function(state, outcome) {
                 detach(HA_Hosp)
                 HA_One <- HA_Order$Provider.Number[1]
                 HA_Name <- hospital[which(hospital[,"Provider.Number"] == HA_One),"Hospital.Name"]
-                HA_Result <- as.character(HA_Name)
-                HA_Result                
+                HA_Result <- as.vector(HA_Name)
+                str(HA_Result)                
         }         
         
-        
-        
-        attach(Hosp1)                
+                       
         if (Test4 == TRUE) {
-                HF_Hosp <- Hosp1[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure),Hospital.Name),]
-                HF_One <- HF_Hosp$Provider.Number[1]
+                HF_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack" == TRUE)),] 
+                attach(HF_Hosp) 
+                HF_Order <- HF_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure),Hospital.Name),]
+                detach(HF_Hosp)               
+                HF_One <- HF_Order$Provider.Number[1]
                 HF_Name <- hospital[which(hospital[,"Provider.Number"] == HF_One),"Hospital.Name"]
-                ##if (HF_Name != "NULL") {print(HF_Name)}
+                HF_Result <- as.vector(HF_Name)
+                str(HF_Result)               
+                
         } 
-        detach(Hosp1) 
-        
-        attach(Hosp1)                
+
+                      
         if (Test5 == TRUE) {
-                PN_Hosp <- Hosp1[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia),Hospital.Name),]
-                PN_One <- PN_Hosp$Provider.Number[1]
+                PN_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia" == TRUE)),] 
+                attach(PN_Hosp) 
+                PN_Order <- PN_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia),Hospital.Name),]
+                detach(PN_Hosp)               
+                PN_One <- PN_Order$Provider.Number[1]
                 PN_Name <- hospital[which(hospital[,"Provider.Number"] == PN_One),"Hospital.Name"]
-                if (PN_Name != "NULL") {print(as.character(PN_Name))}
-        }         
-        detach(Hosp1)                
+                PN_Result <- as.vector(PN_Name)
+                str(PN_Result)            
+
+        }                       
         
 }
+
 
 
 
