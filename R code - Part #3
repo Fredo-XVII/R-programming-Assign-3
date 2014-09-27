@@ -7,12 +7,12 @@ dir()
 [1] "C:/Users/Z001C9V/Documents/Data"
 > dir()
 [1] "hospital-data.csv"              "Hospital_Revised_Flatfiles.pdf" "outcome-of-care-measures.csv"  
-
 ## Best code 
 outcome_dat <- read.csv("outcome-of-care-measures.csv", colClasses = "character", na.string = "Not Available")
 hospital <- read.csv("hospital-data.csv", colClasses = "character", na.string = "Not Available")
 conditions <- c("heart attack","heart failure","pneumonia")
-best <- function(state, outcome) {
+
+rankhospital <- function(state, outcome, num) {
         Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == state),]
         ##head(Hosp1)
         Test1 <- any(outcome == conditions)
@@ -24,12 +24,13 @@ best <- function(state, outcome) {
         if (Test2 == FALSE) {
                 stop("invalid state")
         }
+
         
         Test3 <- (outcome == conditions[1])
         Test4 <- (outcome == conditions[2])
         Test5 <- (outcome == conditions[3])
-                               
-        if (Test3 == TRUE) {
+        
+        if (Test3 == TRUE & num <= nrow(Hosp1)) {
                 HA_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack" == TRUE)),] 
                 attach(HA_Hosp) 
                 HA_Order <- HA_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack),Hospital.Name),]
@@ -41,8 +42,8 @@ best <- function(state, outcome) {
                 str(HA_Result)                
         }         
         
-                       
-        if (Test4 == TRUE) {
+        
+        if (Test4 == TRUE & num <= nrow(Hosp1)) {
                 HF_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure" == TRUE)),] 
                 attach(HF_Hosp) 
                 HF_Order <- HF_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure),Hospital.Name),]
@@ -54,9 +55,9 @@ best <- function(state, outcome) {
                 str(HF_Result)               
                 
         } 
-
-                      
-        if (Test5 == TRUE) {
+        
+        
+        if (Test5 == TRUE & num <= nrow(Hosp1)) {
                 PN_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia" == TRUE)),] 
                 attach(PN_Hosp) 
                 PN_Order <- PN_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia),Hospital.Name),]
@@ -66,12 +67,17 @@ best <- function(state, outcome) {
                 PN_Result <- data.frame()
                 PN_Result <- return(as.vector(PN_Name))
                 str(PN_Result)            
-
-        }                       
+                
+        }  
+        
+        Test6 <- if (num > nrow(Hosp1)) {
+               NotAv <- NA
+               print(NotAv)
+        }        
         
 }
 
 
 ##Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "FL" ),]
 
-##best("MD","heart attack")
+## rankhospital("MN","heart attack",5000)
