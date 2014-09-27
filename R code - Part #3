@@ -7,12 +7,13 @@ dir()
 [1] "C:/Users/Z001C9V/Documents/Data"
 > dir()
 [1] "hospital-data.csv"              "Hospital_Revised_Flatfiles.pdf" "outcome-of-care-measures.csv"  
+
 ## Best code 
 outcome_dat <- read.csv("outcome-of-care-measures.csv", colClasses = "character", na.string = "Not Available")
 hospital <- read.csv("hospital-data.csv", colClasses = "character", na.string = "Not Available")
 conditions <- c("heart attack","heart failure","pneumonia")
 
-rankhospital <- function(state, outcome, num) {
+rankhospital <- function(state, outcome, num = "best") {
         Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == state),]
         ##head(Hosp1)
         Test1 <- any(outcome == conditions)
@@ -29,26 +30,38 @@ rankhospital <- function(state, outcome, num) {
         Test3 <- (outcome == conditions[1])
         Test4 <- (outcome == conditions[2])
         Test5 <- (outcome == conditions[3])
+##
+
         
-        if (Test3 == TRUE & num <= nrow(Hosp1)) {
-                HA_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack" == TRUE)),] 
+        if (Test3 == TRUE) {
+                HA_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack" == TRUE)),]
+                if (num == "best") {num = as.numeric(1)
+                }       else if (num == "worst") {num = as.numeric(nrow(HA_Hosp))
+                }
+                else { num = as.numeric(num) 
+                }                
                 attach(HA_Hosp) 
                 HA_Order <- HA_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack),Hospital.Name),]
                 detach(HA_Hosp)
-                HA_One <- HA_Order$Provider.Number[1]
+                HA_One <- HA_Order$Provider.Number[num]
                 HA_Name <- hospital[which(hospital[,"Provider.Number"] == HA_One),"Hospital.Name"]
                 ##HA_Result <- data.frame()
                 HA_Result <- return(as.vector(HA_Name))
-                str(HA_Result)                
+                HA_Result ##str(HA_Result)                
         }         
         
         
-        if (Test4 == TRUE & num <= nrow(Hosp1)) {
+        if (Test4 == TRUE) {
                 HF_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure" == TRUE)),] 
+                if (num == "best") {num = as.numeric(1)
+                }       else if (num == "worst") {num = as.numeric(nrow(HF_Hosp))
+                }
+                else { num = as.numeric(num) 
+                }                
                 attach(HF_Hosp) 
                 HF_Order <- HF_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure),Hospital.Name),]
                 detach(HF_Hosp)               
-                HF_One <- HF_Order$Provider.Number[1]
+                HF_One <- HF_Order$Provider.Number[num]
                 HF_Name <- hospital[which(hospital[,"Provider.Number"] == HF_One),"Hospital.Name"]
                 HF_Result <- data.frame()
                 HF_Result <- return(as.vector(HF_Name))
@@ -57,12 +70,17 @@ rankhospital <- function(state, outcome, num) {
         } 
         
         
-        if (Test5 == TRUE & num <= nrow(Hosp1)) {
-                PN_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia" == TRUE)),] 
+        if (Test5 == TRUE) {
+                PN_Hosp <- Hosp1[which(!is.na(Hosp1$"Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia" == TRUE)),]
+                if (num == "best") {num = as.numeric(1)
+                }       else if (num == "worst") {num = as.numeric(nrow(PN_Hosp))
+                }
+                else { num = as.numeric(num) 
+                }
                 attach(PN_Hosp) 
                 PN_Order <- PN_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia),Hospital.Name),]
                 detach(PN_Hosp)               
-                PN_One <- PN_Order$Provider.Number[1]
+                PN_One <- PN_Order$Provider.Number[num]
                 PN_Name <- hospital[which(hospital[,"Provider.Number"] == PN_One),"Hospital.Name"]
                 PN_Result <- data.frame()
                 PN_Result <- return(as.vector(PN_Name))
@@ -78,6 +96,9 @@ rankhospital <- function(state, outcome, num) {
 }
 
 
-##Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "FL" ),]
+##Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "NY" ),]
 
-## rankhospital("MN","heart attack",5000)
+## rankhospital("MD","heart attack", "worst")
+## rankhospital("NY", "heart attack", 7)
+
+
