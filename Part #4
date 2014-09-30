@@ -33,7 +33,8 @@ rankall <- function(outcome, num = "best") {
                 }       else if (num == "worst") {num = as.numeric(nrow(HA_Hosp))
                 }
                 else { num = as.numeric(num) 
-                }                
+                } 
+
                 attach(HA_Hosp) 
                 HA_Order <- HA_Hosp[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack),Hospital.Name),]
                 detach(HA_Hosp)
@@ -51,8 +52,11 @@ rankall <- function(outcome, num = "best") {
                 
         }         
         ##HA_Result
-        ##Names_final <- c("hospital","state")
-        HA_Final 
+        ##HA_final_cnt <- length(HA_Final)
+        HA_Final2 <- as.data.frame(HA_Final,row.names = list("hospital","state"))
+        names(HA_Final2)[1] <- "hospital"
+        names(HA_Final2)[2] <- "state"
+        HA_Final2
 }       
 
         if (Test4 == TRUE) {
@@ -111,3 +115,7 @@ for (i in seq_along(St_names)) {
 }
 
 Hosp1 <- outcome_dat[which(outcome_dat[,"State"] == "St_names[1]"),]
+HA_Name <- hospital[which(hospital[,"Provider.Number"] == '010008'),"Hospital.Name"]
+attach(outcome_dat) 
+HA_Order <- outcome_dat[order(as.numeric(Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack),Hospital.Name),]
+detach(outcome_dat)
